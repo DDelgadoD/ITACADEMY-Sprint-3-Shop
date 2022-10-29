@@ -75,32 +75,69 @@ var total = 0;
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
+    const product = products.find(p => p.id == id);
+    if (product) {
+        cartList.push(product)
+    }
 }
 
 // Exercise 2
 function cleanCart() {
-
+    cartList = [];
+    
 }
 
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
+    total = cartList.reduce((sum, p) => sum + p.price, 0);
+}
+
+function calculateTotal() {
+    // Calculate total price of the cart using the "cartList" array
+    total = cart.reduce((sum, p) => p.subtotalWithDiscount ? p.subtotalWithDiscount : sum + p.price * p.quantity  , 0);
 }
 
 // Exercise 4
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+    cart = []
+    cartList.map(p => {
+        cart[p.id] ? cart[p.id].quantity += 1 : cart[p.id]={ ...p , quantity: 1 }
+    });
 }
 
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
+    cart.map(p => {
+        console.log(p)
+        if(p.offer && p.quantity >= p.offer.number) p.subtotalWithDiscount = (p.price * p.quantity * (100 - p.offer.percent)/100);
+    });
 }
 
 // Exercise 6
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    generateCart()
+    applyPromotionsCart()
+    calculateTotal()
+    
+    let rows = "";
+    cart.map( p => { 
+        rows += `
+                <tr>
+                <th scope="row"> ${p.name} </th>
+                <td> $ ${p.price} </td>
+                <td> ${p.quantity} </td>
+                <td>$ ${ p.subtotalWithDiscount ? p.subtotalWithDiscount : p.price * p.quantity}</td>
+                </tr>
+                ` 
+    });
+
+    document.getElementById("cart_list").innerHTML = rows;
+    document.getElementById("total_price").innerHTML = total;                        
 }
 
 
