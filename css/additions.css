@@ -1,3 +1,8 @@
+@font-face {
+    font-family: Bangers;
+    src: url(../fonts/Bangers-Regular.ttf);
+}
+
 
 .shop-bg{
     background-image: url(../images/header.jpg);
@@ -34,4 +39,19 @@ background-image: url(../images/grocery.jpg);
 
 .clothes-bg::before{
     background-image: url(../images/clothes.jpg);
+}
+
+.section-icon{
+    width:70px;
+    aspect-ratio: 1;
+    margin-right: 10px;
+}
+
+.banger{
+    font-family: Bangers;
+}
+
+.image-card{
+    width: calc(100% - .5);
+    aspect-ratio: 1;
 }
