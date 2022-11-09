@@ -1,47 +1,35 @@
-
 // Exercise 6
+
 function validate() {
-	var error = 0;
-	// Get the input fields
-	var fName = document.getElementById("fName");
-	var fEmail = document.getElementById("fEmail");
-
-	// Get the error elements
-	var errorName = document.getElementById("errorName");
-	var errorEmail = document.getElementById("errorEmail");  
+	event.preventDefault()
 	
-	// Validate fields entered by the user: name, phone, password, and email
-	if(fName.value == ""){
-		error++;
-	}
-
-	if(fEmail.value == ""){
-		error++;
-	}function buy(id) {
-		// 1. Loop for to the array products to get the item to add to cart
-		// 2. Add found product to the cartList array
-		const product = products.find(p => p.id == id);
-		if (product) {
-			cartList.push(product)
-		}
-	}
+	let error = 0
+	let i =0
+	const letters = /^[A-Za-z]+$/
+	const nineNumbers = /^[0-9]{9}$/
+	const letterNumber = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/
+	const mail = /^\S+@\S+\.\S+$/
+	const any = ""
 	
-	// Exercise 2
-	function cleanCart() {
-		cartList = [];
+	const fields = { Name:"", Email:"", Address:"", LastN:"", Password:"", Phone:""	}
+	const regex = [letters, mail, any, letters, letterNumber, nineNumbers]
+
+
+	Object.keys(fields).map((f) => { 
+		// Get the input fields
+		fields[f] = document.getElementById(`f${f}`)
+		fields[f].classList.remove('is-invalid');
 		
-	}
-	
-	// Exercise 3
-	function calculateTotal() {
-		// Calculate total price of the cart using the "cartList" array
-		total = cartList.reduce((sum, p) => sum + p.price, 0);
-	}
-	 
-	if(error>0){
-		alert("Error");
-	}else{
-		alert("OK");
-	}
+		// Validate fields for lenght, emptyness and specific constraints
+		if (fields[f].value == "" || fields[f].value.length < 3 || !fields[f].value.match(regex[i])){
+			fields[f].classList.add('is-invalid');
+			error++
+		}
+		i++ 
+	})
 
+	if(error == 0){
+		var form = document.querySelector('.needs-validation')
+		form.classList.add('was-validated')
+	}
 }

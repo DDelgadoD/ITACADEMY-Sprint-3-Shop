@@ -70,7 +70,7 @@ var cartList = [];
 var cart = [];
 
 var total = 0;
-
+/*
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
@@ -84,7 +84,6 @@ function buy(id) {
 // Exercise 2
 function cleanCart() {
     cartList = [];
-    
 }
 
 // Exercise 3
@@ -92,12 +91,20 @@ function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     total = cartList.reduce((sum, p) => sum + p.price, 0);
 }
+*/
 
-function calculateTotal() {
-    // Calculate total price of the cart using the "cartList" array
-    total = cart.reduce((sum, p) => p.subtotalWithDiscount ? p.subtotalWithDiscount : sum + p.price * p.quantity  , 0);
+// Exercise 2 Refactor
+function cleanCart() {
+    cart = [];
 }
 
+// Exercise 3 Refactor
+function calculateTotal() {
+    // Calculate total price of the cart using the "cartList" array
+    total = cart.reduce((sum, p) => p.subtotalWithDiscount ? sum + p.subtotalWithDiscount : sum + p.price * p.quantity  , 0);
+}
+
+/*
 // Exercise 4
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
@@ -107,12 +114,12 @@ function generateCart() {
         cart[p.id] ? cart[p.id].quantity += 1 : cart[p.id]={ ...p , quantity: 1 }
     });
 }
+*/
 
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
     cart.map(p => {
-        console.log(p)
         if(p.offer && p.quantity >= p.offer.number) p.subtotalWithDiscount = (p.price * p.quantity * (100 - p.offer.percent)/100);
     });
 }
@@ -120,7 +127,6 @@ function applyPromotionsCart() {
 // Exercise 6
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
-    generateCart()
     applyPromotionsCart()
     calculateTotal()
     
@@ -131,9 +137,9 @@ function printCart() {
                 <th scope="row"> ${p.name} </th>
                 <td> $ ${p.price} </td>
                 <td> ${p.quantity} </td>
-                <td>$ ${ p.subtotalWithDiscount ? p.subtotalWithDiscount : p.price * p.quantity}</td>
+                <td>$ ${ p.subtotalWithDiscount ? p.subtotalWithDiscount + "<small class='text-danger ms-4'>" + p.offer.percent + "% off</small>" : p.price * p.quantity}</td>
                 </tr>
-                ` 
+            `
     });
 
     document.getElementById("cart_list").innerHTML = rows;
@@ -148,12 +154,19 @@ function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+    products.map(prod => {
+        if(prod.id == id) cart[prod.id] ? cart[prod.id].quantity += 1 : cart[prod.id]={ ...prod , quantity: 1 }
+    });
+
 }
 
 // Exercise 8
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
+    cart.map(prod => {
+        if(prod.id == id) prod.quantity > 1 ? cart[prod.id].quantity -= 1 : cart[prod.id].pop
+    });
 }
 
 function open_modal(){
