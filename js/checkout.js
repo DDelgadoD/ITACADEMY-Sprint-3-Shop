@@ -1,16 +1,21 @@
 // Exercise 6
 
 function validate() {
+	// Stoping recharge of page
 	event.preventDefault()
 	
+	// Counters
 	let error = 0
 	let i =0
+
+	// Regex patterns
 	const letters = /^[A-Za-z]+$/
 	const nineNumbers = /^[0-9]{9}$/
 	const letterNumber = /^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/
 	const mail = /^\S+@\S+\.\S+$/
 	const any = ""
 	
+	// Fields array
 	const fields = { Name:"", Email:"", Address:"", LastN:"", Password:"", Phone:""	}
 	const regex = [letters, mail, any, letters, letterNumber, nineNumbers]
 
@@ -28,6 +33,7 @@ function validate() {
 		i++ 
 	})
 
+	// Checker of error and validation (here we should add the call to database)
 	if(error == 0){
 		var form = document.querySelector('.needs-validation')
 		form.classList.add('was-validated')
